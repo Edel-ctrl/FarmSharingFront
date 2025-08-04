@@ -8,7 +8,7 @@ import { ProductDetails } from '../entities/product/ui/ProductDetails';
 // 🔄 Импортируем типы продуктов
 import type { Product } from '../types';
 import {mockProducts} from "../utils/mockProducts.ts";
-import {FilterBar} from "../components/FilterBar.tsx";
+import {ProductFilterBar} from "../components/ProductFilterBar.tsx";
 
 export const ProductsPage = () => {
     const { t } = useTranslation();
@@ -93,7 +93,7 @@ export const ProductsPage = () => {
             </Box>
 
             {/* 🔍 Фильтры */}
-            <FilterBar
+            <ProductFilterBar
                 searchQuery={searchQuery}
                 onSearch={handleSearch}
                 categories={categories}

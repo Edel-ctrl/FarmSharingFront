@@ -12,8 +12,8 @@ module.exports = {
                 secondary: "#aff8bb",
             },
             animation: {
-                'gradient-shift': 'gradient-shift 3s ease infinite',
-                'bounce-gentle': 'bounce-gentle 1s ease-in-out infinite',
+                'gradient-shift': 'gradient-shift 3 s ease infinite',
+                'bounce-gentle': 'bounce-gentle 1 s ease-in-out infinite',
             },
             keyframes: {
                 'gradient-shift': {
@@ -29,17 +29,17 @@ module.exports = {
                     '2xl': '1.5rem',
                 },
             },
-        },
-        darkMode: "class", // Использовать класс для переключения темной темы
-        // Чтобы работать вместе с MUI
-        corePlugins: {
-            preflight: false,
-        },
-        important: true,
-        plugins: [
-            require("tw-elements/plugin.cjs"),
-            require('@tailwindcss/forms'),
-            require('@tailwindcss/typography')
-        ],
+},
+    darkMode: "class", // Использовать класс для переключения темной темы
+    // Чтобы работать вместе с MUI
+    corePlugins: {
+        preflight: false,
+    },
+    important: true,
+   plugins: [
+       require("tw-elements/plugin.cjs"),
+       require('@tailwindcss/forms'),
+       require('@tailwindcss/typography')
+   ],
     },
 }

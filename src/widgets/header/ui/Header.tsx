@@ -8,7 +8,12 @@ import { useTranslation } from 'react-i18next';
 export const Header = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const { t } = useTranslation();
+    // 🌐 Получаем функцию перевода
+    // Удаляем неиспользуемую переменную t (временно закомментировано)
+    // Если нужно использовать перевод, раскомментируйте следующую строку:
+   // const { t } = useTranslation();
+    useTranslation();
+
 
     return (
         <AppBar

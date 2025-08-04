@@ -1,5 +1,8 @@
-import { Sun, DarkMode } from '@mui/icons-material';
-//                 <Button
+// 📦 Компонент переключения темы с иконками
+ // Используем Material Icons для иконок
+import {DarkMode, LightMode as Sun} from '@mui/icons-material';
+
+
 
 const ThemeSwitcher = () => {
     const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
