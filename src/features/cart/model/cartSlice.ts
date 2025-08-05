@@ -1,11 +1,10 @@
-// 🛒 Redux Toolkit слайс для управления корзиной (будущая замена Context API)
-// Это мы оставляем и улучшаем
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { CartItem, Product } from '../../../types';
+import type {RootState} from '../../../app/store/store';
 
 interface CartState {
     items: CartItem[];
-    isOpen: boolean; // Добавим для контроля видимости корзины
+    isOpen: boolean;
 }
 
 const initialState: CartState = {
@@ -17,10 +16,9 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        // 🛒 Добавление товара в корзину
         addToCart: (state, action: PayloadAction<{ product: Product; quantity: number }>) => {
             const { product, quantity } = action.payload;
-         const existingItem = state.items.find((item: CartItem) => item.product.id === product.id);
+            const existingItem = state.items.find((item: CartItem) => item.product.id === product.id);
 
             if (existingItem) {
                 existingItem.quantity += quantity;
@@ -29,12 +27,10 @@ export const cartSlice = createSlice({
             }
         },
 
-        // 🗑️ Удаление товара из корзины
-        removeFromCart: (state, action: PayloadAction<number>) => { // Изменили на ID продукта
+        removeFromCart: (state, action: PayloadAction<number>) => {
             state.items = state.items.filter(item => item.product.id !== action.payload);
         },
 
-        // 🔄 Обновление количества товара
         updateQuantity: (state, action: PayloadAction<{ productId: number; quantity: number }>) => {
             const { productId, quantity } = action.payload;
 
@@ -49,12 +45,10 @@ export const cartSlice = createSlice({
             }
         },
 
-        // 🧹 Очистка корзины
         clearCart: (state) => {
             state.items = [];
         },
 
-        // 👀 Управление видимостью корзины
         openCart: (state) => {
             state.isOpen = true;
         },
@@ -71,12 +65,16 @@ export const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart, updateQuantity, clearCart, openCart, closeCart, toggleCart } = cartSlice.actions;
 
-// Селекторы для получения данных из состояния
-export const selectCartItems = (state: { cart: CartState }) => state.cart.items;
-export const selectCartIsOpen = (state: { cart: CartState }) => state.cart.isOpen;
-export const selectTotalItems = (state: { cart: CartState }) =>
-    state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
-export const selectTotalPrice = (state: { cart: CartState }) =>
-    state.cart.items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-
+// Исправленные селекторы с безопасной проверкой
+export const selectCartItems = (state: RootState) => state.cart?.items || [];
+export const selectCartIsOpen = (state: RootState) => state.cart?.isOpen || false;
+export const selectTotalItems = (state: RootState) =>
+    state.cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
+export const selectTotalPrice = (state: RootState) =>
+    state.cart?.items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0) || 0;
+// импорт по умолчанию  означает, что мы экспортируем только один элемент из этого файла
+// в данном случае это cartSlice.reducer, который является функцией редьюсера, что
+//  позволяет Redux Toolkit автоматически генерировать экшены и селекторы для работы с корзиной и подключать его к store
+// др. словами-> это позволяет нам использовать cartSlice.reducer в store, чтобы Redux Toolkit знал,
+// как обрабатывать экшены, связанные с корзиной и автоматически генерировать экшены и селекторы для работы с корзиной
 export default cartSlice.reducer;
